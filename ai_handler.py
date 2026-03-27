@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 # 依序嘗試的模型清單（免費額度較寬裕的排在前面）
 MODELS_TO_TRY = [
     "gemini-2.0-flash-lite",
-    "gemini-1.5-flash",
     "gemini-2.0-flash",
+    "gemini-2.0-flash-exp",
 ]
 
 # ── 初始化 Gemini 客戶端 ──────────────────────────────────────────────────────
@@ -119,16 +119,54 @@ def generate_ai_response(
             logger.error(f"Gemini API 呼叫失敗（{model_name}）：{e}")
             break
 
-    logger.error("所有模型均無法回應，回傳備援訊息")
-    return _fallback_response(user_name)
+    logger.warning("所有 Gemini 模型額度耗盡，改用關鍵字直接回覆")
+    return keyword_response(user_name, user_message, store_context)
 
 
 def _fallback_response(user_name: str) -> str:
-    """當 AI 呼叫失敗時的備援回覆"""
+    """當 AI 呼叫失敗時，改用關鍵字直接比對，免 API 也能回覆"""
+    # 這個函式只在沒有 user_message 時才用到
     return (
         f"{user_name}，非常抱歉，我目前遇到一點小問題，暫時無法回覆您的問題 😢\n\n"
         "請稍後再試，或直接聯絡我們的客服人員為您服務，謝謝您的耐心！"
     )
+
+
+def keyword_response(user_name: str, user_message: str, store_context: str) -> str:
+    """
+    不需要 AI API 的關鍵字直接回覆。
+    當 Gemini API 額度耗盡時作為備援。
+    直接把 store_context（已篩選的相關段落）回傳給用戶。
+    """
+    if not store_context or len(store_context.strip()) < 30:
+        return (
+            f"您好 {user_name}！\n\n"
+            "我是特約商店智慧助理 😊\n"
+            "請輸入店家名稱查詢優惠，例如：\n"
+            "「白佳欣眼科」「森森燒肉」「LaLaport台中」\n\n"
+            "輸入「餐飲」「住宿」「購物」等類別也可以查詢喔！"
+        )
+
+    # 判斷是否為類別查詢
+    msg = user_message.lower()
+    if any(k in msg for k in ["餐飲", "餐廳", "吃飯", "food", "eat"]):
+        category_note = "🍽️ 餐飲類特約商店優惠：\n\n"
+    elif any(k in msg for k in ["住宿", "酒店", "飯店", "hotel"]):
+        category_note = "🏨 住宿類特約商店優惠：\n\n"
+    elif any(k in msg for k in ["購物", "outlet", "shopping"]):
+        category_note = "🛍️ 購物類特約商店優惠：\n\n"
+    else:
+        category_note = ""
+
+    # 直接回傳找到的店家資訊（去掉 Markdown 格式讓 LINE 好閱讀）
+    clean = store_context.replace("**", "").replace("### ", "").replace("## ", "")
+    reply = f"{category_note}{clean.strip()}"
+
+    # LINE 訊息限制 5000 字
+    if len(reply) > 1000:
+        reply = reply[:1000] + "\n…（如需更多資訊請輸入完整店名）"
+
+    return reply
 
 
 # ── 工具函式（供測試或進階用）────────────────────────────────────────────────
