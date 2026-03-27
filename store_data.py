@@ -14,6 +14,106 @@ def get_store_context() -> str:
     return STORE_CONTEXT
 
 
+def get_relevant_context(user_message: str) -> str:
+    """
+    根據用戶訊息，智慧選取最相關的商店段落，大幅減少 token 用量。
+    若找到特定商店，只回傳該商店段落（~200 tokens）；
+    否則回傳簡短的商店清單（~150 tokens）。
+    """
+    msg = user_message.lower()
+
+    # 關鍵字 → 段落標題對應表
+    KEYWORD_SECTIONS = {
+        # 餐飲
+        "風間": "風間餐飲集團", "燒肉風間": "風間餐飲集團", "重慶火鍋": "風間餐飲集團", "緋花": "風間餐飲集團",
+        "昭日": "昭日餐飲", "鍋好日": "昭日餐飲",
+        "home燒肉": "HOME燒肉", "home": "HOME燒肉",
+        "金色三麥": "金色三麥集團",
+        "woosa": "WOOSA洋食鬆餅屋", "鬆餅": "WOOSA洋食鬆餅屋",
+        "老四川": "老四川巴蜀麻辣燙", "麻辣燙": "老四川巴蜀麻辣燙",
+        "御饌": "御饌臻品", "御饌臻品": "御饌臻品",
+        "夏慕尼": "夏慕尼新香榭鐵板燒", "鐵板燒": "夏慕尼新香榭鐵板燒",
+        "原燒": "Oh my! 原燒日式焼肉", "焼肉": "Oh my! 原燒日式焼肉",
+        "貳樓": "貳樓餐廳",
+        "amo": "Amo阿默蛋糕", "阿默": "Amo阿默蛋糕",
+        "ikigai": "IKIGAI燒肉專門店",
+        "龜記": "龜記茗品",
+        "森森": "森森燒肉",
+        "mula": "Mula Kitchens美食商場", "美食商場": "Mula Kitchens美食商場",
+        "foodpanda": "foodpanda", "外送": "foodpanda",
+        # 購物
+        "lalaport": "Mitsui Shopping Park LaLaport 台中", "台中港": "MITSUI OUTLET PARK 台中港",
+        "三井": "MITSUI OUTLET PARK", "outlet": "MITSUI OUTLET PARK",
+        "林口": "MITSUI OUTLET PARK 林口",
+        # 通訊
+        "台灣大哥大": "台灣大哥大", "大哥大": "台灣大哥大",
+        "djb": "DJB 迪傑比科技", "迪傑比": "DJB 迪傑比科技", "esim": "DJB 迪傑比科技",
+        # 休閒
+        "異想": "異想新樂園", "樂園": "異想新樂園",
+        "超級巨星": "超級巨星自助式KTV", "ktv": "超級巨星自助式KTV",
+        "走馬瀨": "走馬瀨農場", "農場": "走馬瀨農場",
+        # 汽車
+        "和泓": "和泓國際車體美研", "車體": "和泓國際車體美研", "洗車": "和泓國際車體美研",
+        # 醫療
+        "守葳": "守葳診所", "診所": "守葳診所",
+        "白佳欣": "白佳欣眼科診所", "眼科": "白佳欣眼科診所",
+        "黑手": "黑手運動按摩", "按摩": "黑手運動按摩",
+        # 住宿
+        "鳳凰酒店": "台中鳳凰酒店", "鳳凰": "台中鳳凰酒店",
+        "h2o": "H2O水京棧國際酒店", "水京棧": "H2O水京棧國際酒店",
+        "雀客": "雀客國際酒店集團",
+        "洲際": "台中勤美洲際酒店", "勤美": "台中勤美洲際酒店",
+        "塔木德": "塔木德酒店集團",
+        "遊獵行腳": "遊獵行腳",
+        "遊獵羊灣": "遊獵羊灣", "羊灣": "遊獵羊灣",
+        "晶盈": "晶盈親旅大酒店",
+        "夏都城旅": "夏都城旅", "夏都商旅": "夏都城旅",
+        "宅夏都": "宅・夏都", "宅 夏都": "宅・夏都",
+        "墾丁夏都": "墾丁夏都沙灘酒店", "墾丁": "墾丁夏都沙灘酒店",
+    }
+
+    # 尋找匹配的段落標題
+    matched_section_title = None
+    for keyword, section in KEYWORD_SECTIONS.items():
+        if keyword in msg:
+            matched_section_title = section
+            break
+
+    if matched_section_title:
+        # 從 STORE_CONTEXT 中擷取相關段落
+        lines = STORE_CONTEXT.split('\n')
+        in_section = False
+        section_lines = []
+        for line in lines:
+            if matched_section_title in line and line.startswith('###'):
+                in_section = True
+                section_lines = [line]
+            elif in_section:
+                if line.startswith('###') and matched_section_title not in line:
+                    break
+                section_lines.append(line)
+        if section_lines:
+            return '\n'.join(section_lines[:30])  # 最多30行
+
+    # 未匹配到特定店家，回傳簡短總覽
+    return SHORT_STORE_LIST
+
+
+SHORT_STORE_LIST = """
+弈樂科技特約商店（消費請出示員工識別證，統一編號：50820427）：
+
+🍽️ 餐飲：風間燒肉/重慶火鍋緋花、昭日堂燒肉/鍋煮/鍋好日、HOME燒肉、金色三麥集團、WOOSA洋食鬆餅屋、老四川麻辣燙、御饌臻品、夏慕尼鐵板燒、原燒日式焼肉、貳樓、Amo阿默蛋糕、IKIGAI燒肉、龜記茗品、森森燒肉、Mula Kitchens、foodpanda
+🛍️ 購物：LaLaport台中、三井OUTLET PARK台中港/林口
+📱 通訊：台灣大哥大、DJB迪傑比科技(eSIM)
+🎉 休閒：異想新樂園、超級巨星KTV、走馬瀨農場
+🚗 汽車：和泓國際車體美研（洗車/美容/鍍膜）
+🏥 醫療：守葳診所、白佳欣眼科診所、黑手運動按摩
+🏨 住宿：台中鳳凰酒店、H2O水京棧、雀客國際酒店、洲際酒店、塔木德酒店、遊獵行腳/羊灣、晶盈親旅大酒店、夏都城旅/宅夏都/墾丁夏都
+
+請輸入店家名稱查詢詳細優惠！
+"""
+
+
 # ── 完整商店資料（從 LINE 官方帳號自動回應擷取） ────────────────────────────────
 
 STORE_CONTEXT = """

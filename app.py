@@ -23,7 +23,7 @@ from linebot.v3.webhooks import MessageEvent, TextMessageContent, FollowEvent
 from dotenv import load_dotenv
 
 from ai_handler import generate_ai_response
-from store_data import get_store_context
+from store_data import get_relevant_context
 
 # ── 初始化 ────────────────────────────────────────────────────────────────────
 load_dotenv()
@@ -111,8 +111,8 @@ def handle_text_message(event):
 
     logger.info(f"用戶 [{name}] 傳訊：{user_message}")
 
-    # 取得商店資訊作為 AI 背景知識
-    store_context = get_store_context()
+    # 智慧選取相關商店資訊（只傳相關段落，大幅減少 token 用量）
+    store_context = get_relevant_context(user_message)
 
     # 呼叫 AI 生成個人化回覆
     reply_text = generate_ai_response(

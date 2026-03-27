@@ -12,6 +12,13 @@ from google.genai import types as genai_types
 
 logger = logging.getLogger(__name__)
 
+# 依序嘗試的模型清單（免費額度較寬裕的排在前面）
+MODELS_TO_TRY = [
+    "gemini-2.0-flash-lite",
+    "gemini-1.5-flash",
+    "gemini-2.0-flash",
+]
+
 # ── 初始化 Gemini 客戶端 ──────────────────────────────────────────────────────
 _client = None
 
@@ -78,32 +85,42 @@ def generate_ai_response(
     user_name: str,
     user_message: str,
     store_context: str,
-    model: str = "gemini-2.0-flash",   # 參數保留供未來切換用
+    model: str = "gemini-2.0-flash-lite",
     max_tokens: int = 400,
 ) -> str:
     """
     呼叫 Gemini API，根據用戶訊息生成個人化回覆。
+    自動嘗試多個模型，避免單一模型額度耗盡。
     """
     system_prompt = _build_system_prompt(user_name, store_context)
     full_prompt = f"{system_prompt}\n\n用戶訊息：{user_message}"
 
-    try:
-        client = _get_client()
-        response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=full_prompt,
-            config=genai_types.GenerateContentConfig(
-                max_output_tokens=max_tokens,
-                temperature=0.7,
-            ),
-        )
-        reply = response.text.strip()
-        logger.info("Gemini 回覆生成成功")
-        return reply
+    client = _get_client()
+    for model_name in MODELS_TO_TRY:
+        try:
+            response = client.models.generate_content(
+                model=model_name,
+                contents=full_prompt,
+                config=genai_types.GenerateContentConfig(
+                    max_output_tokens=max_tokens,
+                    temperature=0.7,
+                ),
+            )
+            reply = response.text.strip()
+            logger.info(f"Gemini 回覆生成成功（模型：{model_name}）")
+            return reply
 
-    except Exception as e:
-        logger.error(f"Gemini API 呼叫失敗：{e}")
-        return _fallback_response(user_name)
+        except Exception as e:
+            err_str = str(e)
+            if "429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "quota" in err_str.lower():
+                logger.warning(f"模型 {model_name} 額度不足，嘗試下一個模型…")
+                continue
+            # 其他錯誤直接中斷
+            logger.error(f"Gemini API 呼叫失敗（{model_name}）：{e}")
+            break
+
+    logger.error("所有模型均無法回應，回傳備援訊息")
+    return _fallback_response(user_name)
 
 
 def _fallback_response(user_name: str) -> str:
