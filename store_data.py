@@ -108,6 +108,304 @@ SHORT_STORE_LIST = """
 """
 
 
+# ── 商店卡片資料（供 LINE Flex Message 使用）──────────────────────────────────────
+
+STORE_CARDS = [
+    # 🍽️ 餐飲
+    {
+        "name": "昭日餐飲",
+        "subtitle": "昭日堂燒肉 / 昭日堂鍋煮 / 鍋好日",
+        "category": "🍽️ 餐飲",
+        "benefit": "出示識別證享 9 折優惠",
+        "url": None,
+        "keywords": ["昭日", "鍋好日"],
+    },
+    {
+        "name": "HOME燒肉",
+        "subtitle": "宏騰餐飲集團",
+        "category": "🍽️ 餐飲",
+        "benefit": "平日（週一～五）出示識別證享 9 折",
+        "url": None,
+        "keywords": ["home燒肉", "home"],
+    },
+    {
+        "name": "金色三麥集團",
+        "subtitle": "多品牌餐廳",
+        "category": "🍽️ 餐飲",
+        "benefit": "各子品牌有不同優惠（9折、雙倍點數等）",
+        "url": None,
+        "keywords": ["金色三麥"],
+    },
+    {
+        "name": "WOOSA洋食鬆餅屋",
+        "subtitle": "全台分店",
+        "category": "🍽️ 餐飲",
+        "benefit": "平日消費主餐免費升級套餐",
+        "url": "https://inline.app/booking/-L36k4RLcQz0pL4FOIT7:inline-live-woosa",
+        "keywords": ["woosa", "鬆餅"],
+    },
+    {
+        "name": "老四川巴蜀麻辣燙",
+        "subtitle": "全省直營店",
+        "category": "🍽️ 餐飲",
+        "benefit": "單點總金額滿低消享 95 折",
+        "url": "https://www.oldsichuan.com.tw/official/location/all",
+        "keywords": ["老四川", "麻辣燙"],
+    },
+    {
+        "name": "御饌臻品",
+        "subtitle": "台中安和店",
+        "category": "🍽️ 餐飲",
+        "benefit": "現金付款享 95 折（酒、飲料、白飯除外）",
+        "url": None,
+        "keywords": ["御饌"],
+    },
+    {
+        "name": "夏慕尼新香榭鐵板燒",
+        "subtitle": "台中文心店",
+        "category": "🍽️ 餐飲",
+        "benefit": "出示識別證享 9 折優惠（永久）",
+        "url": None,
+        "keywords": ["夏慕尼", "鐵板燒"],
+    },
+    {
+        "name": "Oh my! 原燒日式焼肉",
+        "subtitle": "台中東海店",
+        "category": "🍽️ 餐飲",
+        "benefit": "消費兩客套餐贈「主廚私房菜」乙份",
+        "url": None,
+        "keywords": ["原燒", "焼肉"],
+    },
+    {
+        "name": "貳樓餐廳",
+        "subtitle": "全台分店",
+        "category": "🍽️ 餐飲",
+        "benefit": "出示識別證享餐飲定價 9 折（酒精飲料除外）",
+        "url": "https://www.secondfloorcafe.com/index.php",
+        "keywords": ["貳樓"],
+    },
+    {
+        "name": "Amo阿默蛋糕",
+        "subtitle": "全台分店",
+        "category": "🍽️ 餐飲",
+        "benefit": "產品享 95 折；咖啡廳外帶享 9 折",
+        "url": "https://www.amo.com.tw",
+        "keywords": ["amo", "阿默"],
+    },
+    {
+        "name": "IKIGAI燒肉專門店",
+        "subtitle": "台中西屯區",
+        "category": "🍽️ 餐飲",
+        "benefit": "每兩人用餐贈「PR嫩肩或豚肋條」乙份",
+        "url": None,
+        "keywords": ["ikigai"],
+    },
+    {
+        "name": "龜記茗品",
+        "subtitle": "全台門市",
+        "category": "🍽️ 餐飲",
+        "benefit": "持員工證享 95 折及會員集點",
+        "url": "https://guiji-group.com/",
+        "keywords": ["龜記"],
+    },
+    {
+        "name": "森森燒肉",
+        "subtitle": "全台多間分店",
+        "category": "🍽️ 餐飲",
+        "benefit": "出示識別證享 9 折優惠",
+        "url": None,
+        "keywords": ["森森"],
+    },
+    {
+        "name": "Mula Kitchens美食商場",
+        "subtitle": "台中西屯區",
+        "category": "🍽️ 餐飲",
+        "benefit": "免服務費＋輸入優惠碼「弈樂科技」享 9 折",
+        "url": "https://restaurant.mulakitchens.com/",
+        "keywords": ["mula", "美食商場"],
+    },
+    {
+        "name": "foodpanda",
+        "subtitle": "外送平台",
+        "category": "🍽️ 餐飲",
+        "benefit": "升級免費企業帳號，享 pandapro 等多項優惠",
+        "url": "https://forms.gle/ZbnMFQDggoFXjtDJ7",
+        "keywords": ["foodpanda", "外送"],
+    },
+    # 🛍️ 購物
+    {
+        "name": "LaLaport 台中",
+        "subtitle": "Mitsui Shopping Park",
+        "category": "🛍️ 購物",
+        "benefit": "出示識別證享消費優惠",
+        "url": "https://ppt.cc/fgm7jx",
+        "keywords": ["lalaport"],
+    },
+    {
+        "name": "MITSUI OUTLET PARK 台中港",
+        "subtitle": "台中梧棲區",
+        "category": "🛍️ 購物",
+        "benefit": "出示識別證享消費優惠",
+        "url": None,
+        "keywords": ["台中港", "三井"],
+    },
+    {
+        "name": "MITSUI OUTLET PARK 林口",
+        "subtitle": "新北林口區（I館 / II館）",
+        "category": "🛍️ 購物",
+        "benefit": "出示識別證享消費優惠",
+        "url": "https://ppt.cc/f42Kcx",
+        "keywords": ["林口", "outlet"],
+    },
+    # 📱 通訊
+    {
+        "name": "台灣大哥大",
+        "subtitle": "企業專案方案",
+        "category": "📱 通訊",
+        "benefit": "員工及眷屬（一、二等親）可申辦企業專案",
+        "url": "https://twm5g.co/h8ny",
+        "keywords": ["台灣大哥大", "大哥大"],
+    },
+    {
+        "name": "DJB 迪傑比科技",
+        "subtitle": "全球 eSIM 上網",
+        "category": "📱 通訊",
+        "benefit": "官網輸入折扣碼「yiledjb」享 95 折",
+        "url": "https://esim.djbcard.com/",
+        "keywords": ["djb", "迪傑比", "esim"],
+    },
+    # 🎉 休閒娛樂
+    {
+        "name": "異想新樂園",
+        "subtitle": "台中大里區",
+        "category": "🎉 休閒",
+        "benefit": "出示識別證購票享 9 折優惠",
+        "url": None,
+        "keywords": ["異想", "樂園"],
+    },
+    {
+        "name": "超級巨星自助式KTV",
+        "subtitle": "全台分店",
+        "category": "🎉 休閒",
+        "benefit": "包廂費 85 折 + 打卡贈飲料一壺",
+        "url": "https://www.superstarktv.com.tw/",
+        "keywords": ["超級巨星", "ktv"],
+    },
+    {
+        "name": "走馬瀨農場",
+        "subtitle": "台南大內區",
+        "category": "🎉 休閒",
+        "benefit": "門票優惠價 200 元；蘭花會館平日 5.5 折起",
+        "url": None,
+        "keywords": ["走馬瀨", "農場"],
+    },
+    # 🚗 汽車
+    {
+        "name": "和泓國際車體美研",
+        "subtitle": "台中南屯區",
+        "category": "🚗 汽車",
+        "benefit": "精緻洗車優惠價；全車美容/鍍膜 85 折；免費到公司取車",
+        "url": None,
+        "keywords": ["和泓", "車體", "洗車"],
+    },
+    # 🏥 醫療/健康
+    {
+        "name": "守葳診所",
+        "subtitle": "台中旗艦店",
+        "category": "🏥 醫療",
+        "benefit": "預約時報企業會員代碼 TY001 享專案條件",
+        "url": None,
+        "keywords": ["守葳", "診所"],
+    },
+    {
+        "name": "白佳欣眼科診所",
+        "subtitle": "台中北屯區",
+        "category": "🏥 醫療",
+        "benefit": "近視雷射享優惠折扣一萬元（永久）",
+        "url": None,
+        "keywords": ["白佳欣", "眼科"],
+    },
+    {
+        "name": "黑手運動按摩",
+        "subtitle": "台中西屯區",
+        "category": "🏥 醫療",
+        "benefit": "出示識別證折扣 100 元",
+        "url": None,
+        "keywords": ["黑手", "按摩"],
+    },
+    # 🏨 住宿
+    {
+        "name": "台中鳳凰酒店",
+        "subtitle": "台中中區",
+        "category": "🏨 住宿",
+        "benefit": "出示識別證享住房優惠",
+        "url": None,
+        "keywords": ["鳳凰酒店", "鳳凰"],
+    },
+    {
+        "name": "H2O水京棧國際酒店",
+        "subtitle": "高雄鼓山區",
+        "category": "🏨 住宿",
+        "benefit": "餐廳 9 折；會議室平日 8 折；房客免費使用各項設施",
+        "url": None,
+        "keywords": ["h2o", "水京棧"],
+    },
+    {
+        "name": "雀客國際酒店集團",
+        "subtitle": "全台多點",
+        "category": "🏨 住宿",
+        "benefit": "訂房優惠，入住出示識別證即可",
+        "url": "https://www.checkhotels.com/zh_tw/",
+        "keywords": ["雀客"],
+    },
+    {
+        "name": "塔木德酒店集團",
+        "subtitle": "全台多點",
+        "category": "🏨 住宿",
+        "benefit": "透過官網特約會員專區訂房享住房優惠",
+        "url": "https://www.talmud.com.tw/contractmember",
+        "keywords": ["塔木德"],
+    },
+    {
+        "name": "遊獵行腳",
+        "subtitle": "特色旅宿",
+        "category": "🏨 住宿",
+        "benefit": "客房優惠價（電話或 LINE 訂房）",
+        "url": "https://deerchaser.com.tw/zh_tw/travel-foothills/",
+        "keywords": ["遊獵行腳"],
+    },
+    {
+        "name": "遊獵羊灣",
+        "subtitle": "特色旅宿",
+        "category": "🏨 住宿",
+        "benefit": "客房優惠價（電話或 LINE 訂房）",
+        "url": "https://deerchaser.com.tw/zh_tw/deer-chaser/",
+        "keywords": ["遊獵羊灣", "羊灣"],
+    },
+]
+
+
+def get_matched_store_card(user_message: str) -> dict | None:
+    """根據用戶訊息找到對應的商店卡片，供 Flex Message 使用。"""
+    msg = user_message.lower()
+    for card in STORE_CARDS:
+        for kw in card.get("keywords", []):
+            if kw.lower() in msg:
+                return card
+    return None
+
+
+def is_list_request(user_message: str) -> bool:
+    """偵測用戶是否在查詢商店列表。"""
+    list_keywords = [
+        "商店列表", "有哪些店", "有哪些商店", "所有商店", "全部商店",
+        "特約商店有哪些", "顯示商店", "商店清單", "店家列表", "特約清單",
+        "看看所有", "所有特約",
+    ]
+    msg = user_message.lower()
+    return any(kw in msg for kw in list_keywords)
+
+
 # ── 完整商店資料（從 LINE 官方帳號自動回應擷取） ────────────────────────────────
 
 STORE_CONTEXT = """
@@ -362,7 +660,7 @@ STORE_CONTEXT = """
 ### 黑手運動按摩
 **關鍵字**：黑手運動按摩、黑手按摩
 **優惠**：出示員工識別證即可折扣100元
-**收費價格**（折前）：1小時 1,300元 / 1.5小時 2,300元
+**收費價格**（折前）：1小時 1,600元 / 1.5小時 2,300元
 **地址**：台中市西屯區華夏巷西四弄38號 / 0906-234790
 
 ---
