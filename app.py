@@ -27,6 +27,7 @@ from linebot.v3.messaging import (
     FlexText,
     FlexButton,
     FlexSeparator,
+    FlexImage,
     URIAction,
 )
 from linebot.v3.webhooks import MessageEvent, TextMessageContent, FollowEvent
@@ -70,7 +71,15 @@ DEFAULT_STORE_URL = "https://line.me/R/ti/p/@310tjlvu"
 def build_store_bubble(card: dict) -> FlexBubble:
     """建立單一商店的 Flex Bubble 卡片。"""
     url = card.get("url") or DEFAULT_STORE_URL
+    image_url = card.get("image_url") or ""
+    hero = FlexImage(
+        url=image_url,
+        size="full",
+        aspect_ratio="20:13",
+        aspect_mode="cover",
+    ) if image_url else None
     return FlexBubble(
+        hero=hero,
         body=FlexBox(
             layout="vertical",
             spacing="sm",
