@@ -771,3 +771,4 @@ def _fix_mojibake(obj):
 
 if _override is None:
     STORE_CARDS = _fix_mojibake(STORE_CARDS)
+    STORE_CONTEXT = _fix_mojibake(STORE_CONTEXT)
