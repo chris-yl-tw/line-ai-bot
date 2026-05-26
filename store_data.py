@@ -755,14 +755,33 @@ if _override is not None:
     STORE_CARDS = _override
 
 
+
 # ── 修正預設資料的 UTF-8/Latin-1 雙重編碼 (mojibake) ────────────────────────────────
+def _fix_mojibake_str(s):
+    """逐字元修正：找 U+0080~U+00FF 的連續序列，嘗試重新解碼為 UTF-8。
+    可正確處理含 emoji（>U+00FF）的混合字串。"""
+    result = []
+    i = 0
+    while i < len(s):
+        cp = ord(s[i])
+        if 0x80 <= cp <= 0xFF:
+            seq = []
+            while i < len(s) and 0x80 <= ord(s[i]) <= 0xFF:
+                seq.append(ord(s[i]))
+                i += 1
+            try:
+                result.append(bytes(seq).decode('utf-8'))
+            except Exception:
+                result.extend(chr(b) for b in seq)
+        else:
+            result.append(s[i])
+            i += 1
+    return ''.join(result)
+
 def _fix_mojibake(obj):
-    """遞迴修正雙重編碼的字串：Latin-1 bytes → UTF-8。"""
+    """遞迴修正雙重編碼的字串（含 emoji 的混合字串也能處理）。"""
     if isinstance(obj, str):
-        try:
-            return obj.encode('latin-1').decode('utf-8')
-        except Exception:
-            return obj
+        return _fix_mojibake_str(obj)
     elif isinstance(obj, dict):
         return {k: _fix_mojibake(v) for k, v in obj.items()}
     elif isinstance(obj, list):
