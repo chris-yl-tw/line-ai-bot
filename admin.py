@@ -515,6 +515,7 @@ function openEditModal(idx) {
   document.getElementById('f-category').value = s.category || '🍽️ 餐飲';
   document.getElementById('f-benefit').value = s.benefit || '';
   document.getElementById('f-url').value = s.url || '';
+  document.getElementById('f-image-url').value = s.image_url || '';
   document.getElementById('f-keywords').value = (s.keywords || []).join(', ');
   document.getElementById('store-modal').classList.add('open');
 }
@@ -534,6 +535,7 @@ function saveStore() {
     category:  document.getElementById('f-category').value,
     benefit,
     url: document.getElementById('f-url').value.trim() || null,
+    image_url: document.getElementById('f-image-url').value.trim() || null,
     keywords:  document.getElementById('f-keywords').value.split(',').map(k => k.trim()).filter(Boolean),
   };
 
