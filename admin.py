@@ -448,6 +448,7 @@ tr:hover td{background:#fafbff}
     </div>
     <div class="form-row"><label>優惠說明 *</label><textarea id="f-benefit" rows="3" placeholder="例：出示識別證享 9 折優惠"></textarea></div>
     <div class="form-row"><label>商店網址（選填）</label><input id="f-url" placeholder="https://…"></div>
+    <div class="form-row"><label>圖片網址（選填）</label><input id="f-image-url" placeholder="https://… (HTTPS 圖片連結)"><p style="font-size:11px;color:#999;margin:2px 0 0">建議比例 20:13，可用 Imgur 或官網圖片</p></div>
     <div class="form-row"><label>關鍵字（逗號分隔）</label><input id="f-keywords" placeholder="例：昭日,鍋好日"></div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal()">取消</button>
@@ -503,6 +504,7 @@ function openAddModal() {
   document.getElementById('edit-idx').value = -1;
   ['name','subtitle','benefit','url','keywords'].forEach(k => document.getElementById('f-'+k).value = '');
   document.getElementById('f-category').value = '🍽️ 餐飲';
+  document.getElementById('f-image-url').value = '';
   document.getElementById('store-modal').classList.add('open');
 }
 
