@@ -753,3 +753,21 @@ def _try_load_override():
 _override = _try_load_override()
 if _override is not None:
     STORE_CARDS = _override
+
+
+# ── 修正預設資料的 UTF-8/Latin-1 雙重編碼 (mojibake) ────────────────────────────────
+def _fix_mojibake(obj):
+    """遞迴修正雙重編碼的字串：Latin-1 bytes → UTF-8。"""
+    if isinstance(obj, str):
+        try:
+            return obj.encode('latin-1').decode('utf-8')
+        except Exception:
+            return obj
+    elif isinstance(obj, dict):
+        return {k: _fix_mojibake(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [_fix_mojibake(i) for i in obj]
+    return obj
+
+if _override is None:
+    STORE_CARDS = _fix_mojibake(STORE_CARDS)
