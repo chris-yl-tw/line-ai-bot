@@ -756,6 +756,7 @@ if _override is not None:
 
 
 
+
 # ── 修正預設資料的 UTF-8/Latin-1 雙重編碼 (mojibake) ────────────────────────────────
 def _fix_mojibake_str(s):
     """逐字元修正：找 U+0080~U+00FF 的連續序列，嘗試重新解碼為 UTF-8。
@@ -791,3 +792,4 @@ def _fix_mojibake(obj):
 if _override is None:
     STORE_CARDS = _fix_mojibake(STORE_CARDS)
     STORE_CONTEXT = _fix_mojibake(STORE_CONTEXT)
+    SHORT_STORE_LIST = _fix_mojibake(SHORT_STORE_LIST)
