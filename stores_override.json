@@ -1,14 +1,15 @@
 [
   {
-    "benefit": "出示識別證享 9 折優惠",
+    "name": "昭日餐飲",
+    "subtitle": "昭日堂燒肉 / 昭日堂鍋煮 / 鍋好日",
     "category": "🍽️ 餐飲",
+    "benefit": "昭日餐飲股份有限公司\n有效期間至2026/12/31 23:59止\n\n・無法出示弈樂科技識別證，店家有權拒絕提供優惠。\n・品牌:昭日堂燒肉、昭日堂鍋煮、鍋好日餐廳消費，請向店員出示弈樂科技識別證可享9折優惠。\n・本優惠不能與店內行銷優惠、招待、贈品、任何形式餐券、抵用券、VIP儲值等併用。\n\n昭日堂燒肉\n・Add：台中市南屯區大墩十一街345號\n・Tel：04-22580588\n昭日堂鍋煮\n・Add：台中市南屯區大墩十一街345號\n・Tel：04-22580269\n鍋好日\n・Add：台中市東區復興路四段186號11F\n・Tel：04-22240886",
+    "url": null,
+    "image_url": null,
     "keywords": [
       "昭日",
       "鍋好日"
-    ],
-    "name": "昭日餐飲",
-    "subtitle": "昭日堂燒肉 / 昭日堂鍋煮 / 鍋好日",
-    "url": null
+    ]
   },
   {
     "benefit": "平日（週一～五）出示識別證享 9 折",
@@ -292,16 +293,16 @@
     "url": null
   },
   {
-    "name": "台中鳳凰酒店",
-    "subtitle": "台中中區",
-    "category": "🏨 住宿",
     "benefit": "出示識別證享住房優惠",
-    "url": null,
+    "category": "🏨 住宿",
     "image_url": "https://drive.google.com/file/d/17rXAWPxBrF2TsL49mLcPYg7A4xz1NxOE/view?usp=drive_link",
     "keywords": [
       "鳳凰酒店",
       "鳳凰"
-    ]
+    ],
+    "name": "台中鳳凰酒店",
+    "subtitle": "台中中區",
+    "url": null
   },
   {
     "benefit": "餐廳 9 折；會議室平日 8 折；房客免費使用各項設施",
